@@ -1,6 +1,6 @@
 // Author: Lorenzo Casalino
 // Website: doktorc.github.io
-// Original source: Digital Design and Computer Architecture. ARM Edition. Harris S. and Harris D, (HDL Example 4.30, page 210)A
+// Original source: Digital Design and Computer Architecture. ARM Edition. Harris S. and Harris D, (HDL Example 4.30, page 210)
 
 // This is my solution to the Example 4.30, which differs from the book solution
 // as follows:
