@@ -23,30 +23,35 @@ module tb_div_by_three();
 
   initial
     begin
-      // Reset module' state
-      reset = 1; #1; reset = 0;
       // Reset clock cycle counter
       counter = 0;
+      // Reset module' state
+      reset = 1; #8; reset = 0;
     end
 
   // Check output correctness on clock's falling edge.
+  // Checking on the rising edge will trigger an error, as `y` is not updated
+  // yet.
   always@(negedge clk)
     begin
-        counter = counter + 1;
-        if (y == 1)
-            assert (counter % 3 == 0)
-            else
-              begin
-                $error("Error in the simulation (clk cycle #%b, y = %b)", counter, y);
-                $finish;
-              end
-        else
-            assert (counter % 3)
-            else
-              begin
-                $error("Error in the simulation (clk cycle #%b, y = %b)", counter, y);
-                $finish;
-              end
+        if (~reset)
+        begin
+          counter = counter + 1;
+          if (y == 1)
+              assert (counter % 3 == 0)
+              else
+                begin
+                  $error("Error in the simulation (clk cycle #%b, y = %b)", counter, y);
+                  $finish;
+                end
+          else
+              assert (counter % 3)
+              else
+                begin
+                  $error("Error in the simulation (clk cycle #%b, y = %b)", counter, y);
+                  $finish;
+                end
+        end
     end
 
 endmodule
