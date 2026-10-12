@@ -7,7 +7,7 @@ module tb_alu();
 
   logic [1:0] A, B, C, C_gold;
   logic [1:0] CTRL;
-  logic [7:0] vectors[5:0];
+  logic [7:0] vectors[63:0];
   logic [5:0] idx;
   logic clk;
 
@@ -34,6 +34,7 @@ module tb_alu();
           $display("CTRL = %b, A = %b, B = %b", {CTRL, A, B});
           $display("Expected: %b", C_gold);
           $display("Got: %b"     , C);
+          $finish;
         end
       idx = idx + 1;
     end
