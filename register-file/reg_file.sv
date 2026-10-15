@@ -18,6 +18,7 @@ module reg_file #(parameter N = 1)
 
   logic [N - 1:0] registers [15:0];
 
+// TODOL: add the logic to reset the register file state
   always_ff @(posedge clk)
     if (write_en)
       registers[addrC] <= portC;

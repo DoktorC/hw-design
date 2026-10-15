@@ -32,6 +32,7 @@ module tb_reg_file();
       idx = 0;
     end
 
+  // Test # : register file state correctly reset
   // Test # : register file not written when write_en not asserted
   //          Consider read_en asserted and not asserted
   // Test # : register file written when write_en asserted
