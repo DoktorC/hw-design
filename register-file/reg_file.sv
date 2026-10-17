@@ -11,17 +11,18 @@
 `timescale 1ns/1ps
 
 module reg_file #(parameter N = 1)
-                 (input  logic read_en, write_en, clk,
+                 (input  logic read_en, write_en, clk, rst,
                   input  logic [3:0] addrA, addrB, addrC,
                   input  logic [N - 1:0] portC,
                   output logic [N - 1:0] portA, portB);
 
   logic [N - 1:0] registers [15:0];
 
-// TODOL: add the logic to reset the register file state
   always_ff @(posedge clk)
-    if (write_en)
-      registers[addrC] <= portC;
+    case ({rst, write_en})
+      2'b1?: registers[addrC] <= 0;
+      2'b01: registers[addrC] <= portC;
+    endcase
   always_comb
     if (read_en)
       begin
