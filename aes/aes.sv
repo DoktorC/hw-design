@@ -9,8 +9,6 @@ module addKey(input  logic [7:0] in_byte,
   assign out_byte = in_byte ^ in_key;
 endmodule
 
-
-// Tabulation from: https://github.com/michaelehab/AES-Verilog
 module sbox(input  logic [7:0] in_byte,
             output logic [7:0] out_byte);
   always_comb
@@ -282,6 +280,7 @@ module shift_row(input  logic [31:0] in_row,
       2'b01: begin out_row[31:24] = in_row[23:16]; out_row[23:16] = in_row[15:8]; out_row[15:8] = in_row[7:0]; out_row[7:0] = in_row[31:24]; end
       2'b10: begin out_row[31:24] = in_row[15:8]; out_row[23:16] = in_row[7:0]; out_row[15:8] = in_row[31:24]; out_row[7:0] = in_row[15:8]; end
       2'b11: begin out_row[31:24] = in_row[7:0]; out_row[23:16] = in_row[31:24]; out_row[15:8] = in_row[23:16]; out_row[7:0] = in_row[15:8]; end
+      default: out_row = in_row;
     endcase
 endmodule
 
@@ -307,8 +306,10 @@ module mix_col(input  logic [31:0] in_col,
   genvar i;
   generate
     for (i = 0; i < 3; i++)
-      xtime _xtime(in_col[8 * (i + 1) - 1:i] ^ in_col[8 * (i + 2) - 1:i + 1], xout[i]);
-      assign out_col[8 * (i + 1) - 1:i] = in_col[8 * (i + 1) - 1:i] ^ xout[i] ^ tmp;
+      begin
+        xtime _xtime(in_col[8 * (i + 1) - 1:i * 8] ^ in_col[8 * (i + 2) - 1:(i + 1) * 8], xout[i]);
+        assign out_col[8 * (i + 1) - 1:i] = in_col[8 * (i + 1) - 1:i] ^ xout[i] ^ tmp;
+      end
   endgenerate
   xtime _xtime(in_col[31:24] ^ in_col[7:0], xout[3]);
   assign out_col[31:24] = in_col[31:24] ^ xout[3] ^ tmp;
@@ -318,7 +319,7 @@ module aes_round(input  logic [127:0] in_state,
                  input  logic [127:0] round_key,
                  output logic [127:0] out_state);
   logic [127:0] state_addkey, state_subbytes;
-  logic [31:0] out_shiftrow[3], out_mc[4];
+  logic [31:0] out_shiftrow[4], in_mc[4], out_mc[4];
 
   genvar i;
   generate
@@ -334,37 +335,34 @@ module aes_round(input  logic [127:0] in_state,
   endgenerate
 
   generate
-    for (i = 1; i < 4; i++)
+    for (i = 0; i < 4; i++)
       shift_row shiftRow({state_subbytes[8 * (i + 1) - 1:i * 8],
                           state_subbytes[8 * (i + 1) - 1 + 32: i * 8 + 32],
                           state_subbytes[8 * (i + 1) - 1 + 64 : i * 8 + 64],
                           state_subbytes[8 * (i + 1) - 1 + 96 : i * 8 + 96]},
                           i,
-                          out_shiftrow[i - 1]);
+                          out_shiftrow[i]);
   endgenerate
 
-  // TODO: compose the mixcol input as done in out_state
   generate
+    begin
     for (i = 0; i < 4; i++)
-      mix_col mc(, );
+      begin
+        assign in_mc[i] = { out_shiftrow[0][8 * (i + 1) - 1:i * 8],
+                            out_shiftrow[1][8 * (i + 1) - 1:i * 8],
+                            out_shiftrow[2][8 * (i + 1) - 1:i * 8],
+                            out_shiftrow[3][8 * (i + 1) - 1:i * 8] };
+        mix_col mc(in_mc[i], out_state[32 * (i + 1) - 1:i * 32]);
+      end
+    end
   endgenerate
 
-  assign out_state = {state_subbytes[7:0],    out_shiftrow[0][7:0],   out_shiftrow[1][7:0],   out_shiftrow[2][7:0],
+ /* assign out_state = {state_subbytes[7:0],    out_shiftrow[0][7:0],   out_shiftrow[1][7:0],   out_shiftrow[2][7:0],
                       state_subbytes[39:32],  out_shiftrow[0][15:8],  out_shiftrow[1][15:8],  out_shiftrow[2][15:8],
                       state_subbytes[71:64],  out_shiftrow[0][23:16], out_shiftrow[1][23:16], out_shiftrow[2][23:16],
                       state_subbytes[103:96], out_shiftrow[0][31:24], out_shiftrow[1][31:24], out_shiftrow[2][31:24]
                      };
-endmodule
-
-module xtime(input logic  [7:0] in_byte,
-             output logic [7:0] out_byte);
-  logic tmp;
-
-  assign tmp = in_byte << 1;
-  always_comb
-    if (in_byte[7])
-      tmp = tmp ^ 8'h1B;
-  assign out_byte = tmp;
+  */
 endmodule
 
 module aes(input  logic [127:0] plaintext,
