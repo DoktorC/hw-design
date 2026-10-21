@@ -9,16 +9,17 @@ module tb_xtime();
   logic [15:0] vectors[256];
 
   xtime dut(in_byte, out_byte);
-  
+
   initial
     begin
-      $readmemb("tb_xtime.mem", vectors);
+      $readmemh("tb_xtime.mem", vectors);
       for (int i = 0; i < 256; i++)
         begin
           {in_byte, gold_out_byte} = vectors[i];
           if (gold_out_byte != out_byte)
             $display("gold (%h) != out (%h)", gold_out_byte, out_byte);
+          #1;
         end
-      $finish
+      $finish;
     end
 endmodule
