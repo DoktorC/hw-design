@@ -8,15 +8,20 @@ import Data.Word
 import Numeric (showHex)
 import System.IO
 
+showHex' :: (Integral a, Show a) => a -> String 
+showHex' n | n < 16 = '0' : showHex n ""
+           | otherwise = showHex n ""
+
+
 -- 'xtime' function as defined per FIPS-197 (cft. Section 4.2.1).
 -- https://nvlpubs.nist.gov/nistpubs/fips/nist.fips.197.pdf
 xtime :: Word8 -> Word8
-xtime a =  if testBit _a 7 then _a `xor` 0x1B else _a
+xtime a =  if testBit a 7 then _a `xor` 0x1B else _a
         where _a = a `shiftL` 1
 
 -- Generate the set of test vectors as a unique string formatted as: input_output\n
 genTestVectorsXTIME :: [Char]
-genTestVectorsXTIME = foldr (++) "" $ map (\ x -> showHex x "" ++ "_" ++ showHex (xtime x) "" ++ "\n") [0..255]
+genTestVectorsXTIME = foldr (++) "" $ map (\ x -> showHex' x ++ "_" ++ showHex' (xtime x) ++ "\n") [0..255]
 
 main = do
   handle <- openFile "tb_xtime.mem" WriteMode
