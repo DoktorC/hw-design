@@ -12,8 +12,12 @@ showHex' :: (Integral a, Show a) => a -> String
 showHex' n | n < 16 = '0' : showHex n ""
            | otherwise = showHex n ""
 
+-- Format a tuple of four Word8 as a string containing the hex representation of
+-- the four Word8.
+-- To comply with the reading order of SystemVerilog's '$readmemb', showTuple
+-- concatenates the Word8s in reversed order.
 showTuple :: (Word8, Word8, Word8, Word8) -> String
-showTuple (a, b, c, d) = foldr (\ x z -> showHex' x ++ z) "" [a, b, c, d]
+showTuple (a, b, c, d) = foldr (\ x z -> showHex' x ++ z) "" $ reverse [a, b, c, d]
 
 
 -- 'xtime' function as defined per FIPS-197 (cft. Section 4.2.1).
@@ -40,6 +44,9 @@ inputVectorsMixCol = [
                      ]
 
 -- Generate the set of test vectors as a unique string formatted as: input_output\n
+-- The most significant byte of the input (respectively, of the output) are
+-- towards the left, complying with the reading order of SystemVerilog's
+-- '$readmemb'.
 genTestVectorsXTIME :: [Char]
 genTestVectorsXTIME = foldr (++) "" $ map (\ x -> showHex' x ++ "_" ++ showHex' (xtime x) ++ "\n") [0..255]
 
