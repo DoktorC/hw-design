@@ -298,21 +298,23 @@ endmodule
 
 module mix_col(input  logic [31:0] in_col,
                output logic [31:0] out_col);
-  logic [7:0] tmp;
-  logic [7:0] xout[4];
-
-  assign tmp = ^(in_col);
-
+  logic [7:0] xout_02[4], xout_03[4];
+  
   genvar i;
   generate
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 4; i++)
       begin
-        xtime _xtime(in_col[8 * (i + 1) - 1:i * 8] ^ in_col[8 * (i + 2) - 1:(i + 1) * 8], xout[i]);
-        assign out_col[8 * (i + 1) - 1:i] = in_col[8 * (i + 1) - 1:i] ^ xout[i] ^ tmp;
+        // Compute the multiplication by 0x02 and by 0x03 for all the bytes of the input column 'in_col'
+        xtime _xtime(in_col[8 * (i + 1) - 1:i * 8], xout_02[i]);
+        assign xout_03[i] = xout_02[i] ^ in_col[8 * (i + 1) - 1:i * 8];
       end
   endgenerate
-  xtime _xtime(in_col[31:24] ^ in_col[7:0], xout[3]);
-  assign out_col[31:24] = in_col[31:24] ^ xout[3] ^ tmp;
+
+  assign out_col[7:0]   = xout_02[0]  ^ xout_03[1]   ^ in_col[23:16] ^ in_col[31:24];
+  assign out_col[15:8]  = in_col[7:0] ^ xout_02[1]   ^ xout_03[2]    ^ in_col[31:24];
+  assign out_col[23:16] = in_col[7:0] ^ in_col[15:8] ^ xout_02[2]    ^ xout_03[3];
+  assign out_col[31:24] = xout_03[0]  ^ in_col[15:8] ^ in_col[23:16] ^ xout_02[3];
+
 endmodule
 
 module aes_round(input  logic [127:0] in_state,
