@@ -331,7 +331,7 @@ module aes_round(input  logic [127:0] in_state,
                       round_key[8 * (i + 1) - 1:8 * i],
                       state_addkey[8 * (i + 1) - 1:8 * i]
                       );
-        sbox subBytes(in_state[8 * (i + 1) - 1:8 * i],
+        sbox subBytes(state_addkey[8 * (i + 1) - 1:8 * i],
                       state_subbytes[8 * (i + 1) - 1:8 * i]);
       end
   endgenerate
