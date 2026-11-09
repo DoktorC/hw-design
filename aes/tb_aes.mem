@@ -15,132 +15,132 @@
 
 // --- Round 0 (Initial AddRoundKey) ---
 // Addr 0: state_in  (plaintext)
-00112233445566778899aabbccddeeff
+ffeeddccbbaa99887766554433221100
 // Addr 1: round_key
-000102030405060708090a0b0c0d0e0f
+0f0e0d0c0b0a09080706050403020100
 // Addr 2: after_SubBytes (N/A - use 0)
 00000000000000000000000000000000
 // Addr 3: after_ShiftRows (N/A - use 0)
 00000000000000000000000000000000
 // Addr 4: after_AddRoundKey (= Round1 start)
-00102030405060708090a0b0c0d0e0f0
+f0e0d0c0b0a090807060504030201000
 
 // --- Round 1 ---
 // Addr 5: state_in
-00102030405060708090a0b0c0d0e0f0
+f0e0d0c0b0a090807060504030201000
 // Addr 6: round_key
-d6aa74fdd2af72fadaa678f1d6ab76fe
+fe76abd6f178a6dafa72afd2fd74aad6
 // Addr 7: after_SubBytes
-63cab7040953d051cd60e0e7ba70e18c
+8ce170bae7e060cd51d0530904b7ca63
 // Addr 8: after_ShiftRows
-6353e08c0960e104cd70b751bacad0e7
+e7d0caba51b770cd04e160098ce05363
 // Addr 9: after_MixColumns
-5f72641557f5bc92f7be3b291db9f91a
+1af9b91d293bbef792bcf5571564725f
 
 // --- Round 2 ---
 // Addr 10: state_in
-89d810e8855ace682d1843d8cb128fe4
+e48f12cbd843182d68ce5a85e810d889
 // Addr 11: round_key
-b692cf0b643dbdf1be9bc5006830b3fe
+feb3306800c59bbef1bd3d640bcf92b6
 // Addr 12: after_SubBytes
-a761ca9b97be8b45d8ad1a611fc97369
+6973c91f611aadd8458bbe979bca61a7
 // Addr 13: after_ShiftRows
-a7be1a6997ad739bd8c9ca451f618b61
+618b611f45cac9d89b73ad97691abea7
 // Addr 14: after_MixColumns
-ff87968431d86a51645151fa773ad009
+09d03a77fa515164516ad831849687ff
 
 // --- Round 3 ---
 // Addr 15: state_in
-4915598f55e5d7a0daca94fa1f0a63f7
+f7630a1ffa94cadaa0d7e5558f591549
 // Addr 16: round_key
-b6ff744ed2c2c9bf6c590cbf0469bf41
+41bf6904bf0c596cbfc9c2d24e74ffb6
 // Addr 17: after_SubBytes
-3b59cb73fcd90ee05774222dc067fb68
+68fb67c02d227457e00ed9fc73cb593b
 // Addr 18: after_ShiftRows
-3bd92268fc74fb735767cbe0c0590e2d
+2d0e59c0e0cb675773fb74fc6822d93b
 // Addr 19: after_MixColumns
-4c9c1e66f771f0762c3f868e534df256
+56f24d538e863f2c76f071f7661e9c4c
 
 // --- Round 4 ---
 // Addr 20: state_in
-fa636a2825b339c940668a3157244d17
+174d2457318a6640c939b325286a63fa
 // Addr 21: round_key
-47f7f7bc95353e03f96c32bcfd058dfd
+fd8d05fdbc326cf9033e3595bcf7f747
 // Addr 22: after_SubBytes
-2dfb02343f6d12dd09337ec75b36e3f0
+f0e3365bc77e3309dd126d3f3402fb2d
 // Addr 23: after_ShiftRows
-2d6d7ef03f33e334093602dd5bfb12c7
+c712fb5bdd02360934e3333ff07e6d2d
 // Addr 24: after_MixColumns
-6385b79ffc538df997be478e7547d691
+91d647758e47be97f98d53fc9fb78563
 
 // --- Round 5 ---
 // Addr 25: state_in
-247240236966b3fa6ed2753288425b6c
+6c5b42883275d26efab3666923407224
 // Addr 26: round_key
-3caaa3e8a99f9deb50f3af57adf622aa
+aa22f6ad57aff350eb9d9fa9e8a3aa3c
 // Addr 27: after_SubBytes
-36400926f9336d2d9fb59d23c42c3950
+50392cc4239db59f2d6d33f926094036
 // Addr 28: after_ShiftRows
-36339d50f9b539269f2c092dc4406d23
+236d40c42d092c9f2639b5f9509d3336
 // Addr 29: after_MixColumns
-f4bcd45432e554d075f1d6c51dd03b3c
+3c3bd01dc5d6f175d054e53254d4bcf4
 
 // --- Round 6 ---
 // Addr 30: state_in
-c81677bc9b7ac93b25027992b0261996
+961926b0927902253bc97a9bbc7716c8
 // Addr 31: round_key
-5e390f7df7a69296a7553dc10aa31f6b
+6b1fa30ac13d55a79692a6f77d0f395e
 // Addr 32: after_SubBytes
-e847f56514dadde23f77b64fe7f7d490
+90d4f7e74fb6773fe2ddda1465f547e8
 // Addr 33: after_ShiftRows
-e8dab6901477d4653ff7f5e2e747dd4f
+4fdd47e7e2f5f73f65d4771490b6dae8
 // Addr 34: after_MixColumns
-9816ee7400f87f556b2c049c8e5ad036
+36d05a8e9c042c6b557ff80074ee1698
 
 // --- Round 7 ---
 // Addr 35: state_in
-c62fe109f75eedc3cc79395d84f9cf5d
+5dcff9845d3979ccc3ed5ef709e12fc6
 // Addr 36: round_key
-14f9701ae35fe28c440adf4d4ea9c026
+26c0a94e4ddf0a448ce25fe31a70f914
 // Addr 37: after_SubBytes
-b415f8016858552e4bb6124c5f998a4c
+4c8a995f4c12b64b2e55586801f815b4
 // Addr 38: after_ShiftRows
-b458124c68b68a014b99f82e5f15554c
+4c55155f2ef8994b018ab6684c1258b4
 // Addr 39: after_MixColumns
-c57e1c159a9bd286f05f4be098c63439
+3934c698e04b5ff086d29b9a151c7ec5
 
 // --- Round 8 ---
 // Addr 40: state_in
-d1876c0f79c4300ab45594add66ff41f
+1ff46fd6ad9455b40a30c4790f6c87d1
 // Addr 41: round_key
-47438735a41c65b9e016baf4aebf7ad2
+d27abfaef4ba16e0b9651ca435874347
 // Addr 42: after_SubBytes
-3e175076b61c04678dfc2295f6a8bfc0
+c0bfa8f69522fc8d67041cb67650173e
 // Addr 43: after_ShiftRows
-3e1c22c0b6fcbf768da85067f6170495
+950417f66750a88d76bffcb6c0221c3e
 // Addr 44: after_MixColumns
-baa03de7a1f9b56ed5512cba5f414d23
+234d415fba2c51d56eb5f9a1e73da0ba
 
 // --- Round 9 ---
 // Addr 45: state_in
-fde3bad205e5d0d73547964ef1fe37f1
+f137fef14e964735d7d0e505d2bae3fd
 // Addr 46: round_key
-549932d1f08557681093ed9cbe2c974e
+4e972cbe9ced9310685785f0d1329954
 // Addr 47: after_SubBytes
-5411f4b56bd9700e96a0902fa1bb9aa1
+a19abba12f90a0960e70d96bb5f41154
 // Addr 48: after_ShiftRows
-54d990a16ba09ab596bbf40ea111702f
+2f7011a10ef4bb96b59aa06ba190d954
 // Addr 49: after_MixColumns
-e9f74eec023020f61bf2ccf2353c21c7
+c7213c35f2ccf21bf6203002ec4ef7e9
 
 // --- Round 10 (final) ---
 // Addr 50: state_in
-bd6e7c3df2b5779e0b61216e8b10b689
+89b6108b6e21610b9e77b5f23d7c6ebd
 // Addr 51: round_key
-13111d7fe3944a17f307a78b4d2b30c5
+c5302b4d8ba707f3174a94e37f1d1113
 // Addr 52: after_SubBytes
-7a9f102789d5f50b2beffd9f3dca4ea7
+a74eca3d9ffdef2b0bf5d58927109f7a
 // Addr 53: after_ShiftRows
-7ad5fda789ef4e272bca100b3d9ff59f
+9ff59f3d0b10ca2b274eef89a7fdd57a
 // Addr 54: ciphertext_output
-69c4e0d86a7b0430d8cdb78070b4c55a
+5ac5b47080b7cdd830047b6ad8e0c469
