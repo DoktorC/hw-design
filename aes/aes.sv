@@ -299,9 +299,9 @@ module shift_row(input  logic [31:0] in_row,
                  output logic [31:0] out_row);
   always_comb
     case (amount)
-      2'b01: begin out_row[31:24] = in_row[23:16]; out_row[23:16] = in_row[15:8]; out_row[15:8] = in_row[7:0]; out_row[7:0] = in_row[31:24]; end
-      2'b10: begin out_row[31:24] = in_row[15:8]; out_row[23:16] = in_row[7:0]; out_row[15:8] = in_row[31:24]; out_row[7:0] = in_row[15:8]; end
-      2'b11: begin out_row[31:24] = in_row[7:0]; out_row[23:16] = in_row[31:24]; out_row[15:8] = in_row[23:16]; out_row[7:0] = in_row[15:8]; end
+      2'b01: begin out_row[31:24] = in_row[7:0]; out_row[23:16] = in_row[31:24]; out_row[15:8] = in_row[23:16]; out_row[7:0] = in_row[15:8]; end
+      2'b10: begin out_row[31:24] = in_row[15:8]; out_row[23:16] = in_row[7:0]; out_row[15:8] = in_row[31:24]; out_row[7:0] = in_row[23:16]; end
+      2'b11: begin out_row[31:24] = in_row[23:16]; out_row[23:16] = in_row[15:8]; out_row[15:8] = in_row[7:0]; out_row[7:0] = in_row[31:24]; end
       default: out_row = in_row;
     endcase
 endmodule
@@ -313,18 +313,19 @@ module shift_rows(input logic  [127:0] in_state,
   genvar i;
   generate
     for (i = 0; i < 4; i++)
-      shift_row shiftRow({in_state[8 * (i + 1) - 1:i * 8],
-                          in_state[8 * (i + 1) - 1 + 32: i * 8 + 32],
-                          in_state[8 * (i + 1) - 1 + 64 : i * 8 + 64],
-                          in_state[8 * (i + 1) - 1 + 96 : i * 8 + 96]},
-                          i,
-                          out_shiftrow[i]);
+      begin
+        shift_row shiftRow({in_state[8 * (i + 1) - 1 + 96 : i * 8 + 96],
+                            in_state[8 * (i + 1) - 1 + 64 : i * 8 + 64],
+                            in_state[8 * (i + 1) - 1 + 32 : i * 8 + 32],
+                            in_state[8 * (i + 1) - 1      : i * 8]},
+                            i,
+                            out_shiftrow[i]);
+        assign out_state[8 * (i + 1) - 1 + 96 : i * 8 + 96] = out_shiftrow[i][31:24];
+        assign out_state[8 * (i + 1) - 1 + 64 : i * 8 + 64] = out_shiftrow[i][23:16];
+        assign out_state[8 * (i + 1) - 1 + 32 : i * 8 + 32] = out_shiftrow[i][15: 8];
+        assign out_state[8 * (i + 1) - 1      : i * 8     ] = out_shiftrow[i][ 7: 0];
+      end
   endgenerate
-  
-  assign out_state = { out_shiftrow[0],
-                       out_shiftrow[1],
-                       out_shiftrow[2],
-                       out_shiftrow[3] };
 endmodule
 
 module xtime(input  logic [7:0] in_byte,
